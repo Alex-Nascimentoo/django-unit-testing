@@ -1,7 +1,13 @@
-from django.http import HttpResponse
-from django.views import View
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post
 
-class Home(View):
+def home(request):
+  all_posts = Post.objects.all()
 
-  def get(self, request):
-    return HttpResponse('Hello, World!')
+  return render(request, 'index.html', {'posts': all_posts})
+
+
+def post_single(request, post):
+  post = get_object_or_404(Post, slug=post)
+
+  return render(request, 'detail.html', {'post': post})
