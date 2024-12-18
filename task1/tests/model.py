@@ -19,6 +19,7 @@ class TestTask1Models(TestCase):
     cls.post = Post.objects.create(
       title = 'Test Post',
       content = 'Test Content',
+      slug = 'slug',
     )
 
     cls.post.likes.set([user.pk, user2.pk])
@@ -30,3 +31,8 @@ class TestTask1Models(TestCase):
 
   def test_post_like_users(self):
     self.assertEqual(self.post.likes.count(), 2)
+
+  
+  def test_post_get_absolute_url(self):
+    self.post.slug = Post.objects.get(id=1)
+    self.assertEqual(self.post.slug.get_absolute_url(), '/slug/')
